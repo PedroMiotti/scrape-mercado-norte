@@ -1,95 +1,89 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { Flex, Text } from "@chakra-ui/react";
+import { createColumnHelper } from "@tanstack/react-table";
+
+import data from "@/shared/assets/json/data.json";
+import SimpleTable from "@/components/SimpleTable";
+import { useMemo } from "react";
+
+type MarkedData = {
+  Segmento: string;
+  Pais: string;
+  Organização: string;
+  Produto: string;
+  Desconto: string;
+  Quantidade: number;
+  CustoUnitario: number;
+  PrecoUnitario: number;
+  VendaBruto: number;
+  Desconto2: number;
+  Venda: number;
+  Lucro: number;
+  Date: number;
+};
+
+const columnHelper = createColumnHelper<MarkedData>();
+
+const columns = [
+  columnHelper.accessor("Segmento", {
+    header: "Segmento",
+    cell: (info) => <Text>{info.row.original.Segmento}</Text>,
+  }),
+  columnHelper.accessor("Pais", {
+    header: "Pais",
+    cell: (info) => <Text>{info.row.original.Pais}</Text>,
+  }),
+  columnHelper.accessor("Organização", {
+    header: "Organização",
+    cell: (info) => <Text>{info.row.original.Organização}</Text>,
+  }),
+  columnHelper.accessor("Produto", {
+    header: "Produto",
+    cell: (info) => <Text>{info.row.original.Produto}</Text>,
+  }),
+  columnHelper.accessor("Desconto", {
+    header: "Desconto",
+    cell: (info) => <Text>{info.row.original.Desconto}</Text>,
+  }),
+  columnHelper.accessor("Quantidade", {
+    header: "Quantidade",
+    cell: (info) => <Text>{info.row.original.Quantidade}</Text>,
+  }),
+  columnHelper.accessor("CustoUnitario", {
+    header: "Custo Unitario",
+    cell: (info) => <Text>{info.row.original.CustoUnitario}</Text>,
+  }),
+  columnHelper.accessor("PrecoUnitario", {
+    header: "Preco Unitario",
+    cell: (info) => <Text>{info.row.original.PrecoUnitario}</Text>,
+  }),
+  columnHelper.accessor("VendaBruto", {
+    header: "Venda Bruto",
+    cell: (info) => <Text>{info.row.original.VendaBruto}</Text>,
+  }),
+  columnHelper.accessor("Desconto2", {
+    header: "Desconto 2",
+    cell: (info) => <Text>{info.row.original.Desconto2}</Text>,
+  }),
+  columnHelper.accessor("Venda", {
+    header: "Venda",
+    cell: (info) => <Text>{info.row.original.Venda}</Text>,
+  }),
+  columnHelper.accessor("Lucro", {
+    header: "Lucro",
+    cell: (info) => <Text>{info.row.original.Lucro}</Text>,
+  }),
+  columnHelper.accessor("Date", {
+    header: "Date",
+    cell: (info) => <Text>{info.row.original.Date}</Text>,
+  }),
+];
 
 export default function Home() {
+  const cachedData = useMemo(() => data, []);
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <Flex padding={5}>
+      <SimpleTable loading={false} columns={columns} data={cachedData as MarkedData[]} />
+    </Flex>
+  );
 }
